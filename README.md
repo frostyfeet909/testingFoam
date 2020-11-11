@@ -1,5 +1,5 @@
 # testingFoam
-Some programs I'm working on.
+Some programs I'm working on. If you want to run it just navigate to this folder and: python main.py
 
 Requirments for each are in the respective readme and brief instruction on use.
 
