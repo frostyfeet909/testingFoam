@@ -13,10 +13,10 @@ rcParams['font.serif'] = ['Computer Modern Roman']
 rcParams['text.usetex'] = True
 
 
-def main():
-    plotVelocity()
-    plotMass()
-    plotPressure()
+def main(working_dir):
+    plotVelocity(working_dir)
+    plotMass(working_dir)
+    plotPressure(working_dir)
 
 
 def plotVelocity():
