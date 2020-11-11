@@ -1,6 +1,5 @@
 # Application that runs all others, gets input and calls others.
 import os
-import sys
 import plotDifference
 from subprocess import call
 from dataInterface import get_good_data
@@ -25,8 +24,6 @@ def main():
     print("\n")
 
     if promising == "y" or promising == "":
-        find_promising = raw_input("Do you need to find the promising cases [y/n]: ")
-
         print("Default mass promising - enter m or p or umean or umax (or any combination):")
 
         val_names = []
@@ -53,15 +50,6 @@ def main():
             tol = 1.0
         else:
             tol = float(tol)
-
-        if find_promising == "" or find_promising == "y":
-            if os.path.isdir(working_dir + "/" + "findGood"):
-                sys.path.append(working_dir + "/" + "findGood")  # Pretty dirty workaround
-                from findGood import main as app_main
-                app_main(working_dir, tol)
-            else:
-                print("[!] Could not find the findGood module - Attempting to use prior values")
-                raw_input(">> ")
 
         for val in val_names:
             path = working_dir + "/" + "promising" + val + str(tol) + "%.txt"
