@@ -12,6 +12,7 @@ rcParams['text.usetex'] = True
 
 
 def main(working_dir):
+    # Prepare the data and call functions to plot
     reference_data = get_data(working_dir + "/plotCases/referenceCase", "/DataSummary.csv")
     temp_data = get_data(working_dir + "/plotCases/tempCase", "/DataSummary.csv")
 
@@ -46,7 +47,7 @@ def main(working_dir):
 
 
 def plot_velocity(t_ref, t_tmp, data_1_ref, data_2_ref, data_1_tmp, data_2_tmp):
-    # Finds the right data and adds info + saves the graph
+    # Plots the data and adds info + saves the graph
     plt.figure(figsize=(250 / 25.4, 200 / 25.4))
     plt.semilogy(t_ref, data_1_ref, label='interFoam Average', linewidth=3)
     plt.semilogy(t_tmp, data_1_tmp, label='interPhaseFieldFoam Average', linewidth=3)
@@ -64,7 +65,7 @@ def plot_velocity(t_ref, t_tmp, data_1_ref, data_2_ref, data_1_tmp, data_2_tmp):
 
 
 def plot_mass(t_ref, t_tmp, data_ref, data_tmp):
-    # Finds the right data and adds info + saves the graph
+    # Plots the data and adds info + saves the graph
     plt.figure(figsize=(250 / 25.4, 200 / 25.4))
     plt.plot(t_ref, data_ref, label='interFoam', linewidth=3)
     plt.plot(t_tmp, data_tmp, label='interPhaseFieldFoam', linewidth=3)
@@ -80,7 +81,7 @@ def plot_mass(t_ref, t_tmp, data_ref, data_tmp):
 
 
 def plot_pressure(t_ref, t_tmp, data_ref, data_tmp):
-    # Finds the right data and adds info + saves the graph
+    # Plots the data and adds info + saves the graph
     plt.figure(figsize=(250 / 25.4, 200 / 25.4))
     plt.plot(t_ref, data_ref, label='interFoam', linewidth=3)
     plt.plot(t_tmp, data_tmp, label='interPhaseFieldFoam', linewidth=3)

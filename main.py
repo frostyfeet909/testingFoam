@@ -49,10 +49,11 @@ def main():
         os.chdir("plotColor")
 
     else:
-        print("[!!] Not a valid choice")
+        print("[!!] Bye!")
         raise SystemExit
 
     app_main.main()
+    main()  # Recursion
 
 
 if __name__ == "__main__":

@@ -56,9 +56,9 @@ def main():
 
         if find_promising == "" or find_promising == "y":
             if os.path.isdir(working_dir + "/" + "findGood"):
-                sys.path.append(working_dir + "/" + "findGood")  # Gotta add this folder to path to be able to import it
-                import findGood
-                findGood.main(working_dir, tol)
+                sys.path.append(working_dir + "/" + "findGood")  # Pretty dirty workaround
+                from findGood import main as app_main
+                app_main(working_dir, tol)
             else:
                 print("[!] Could not find the findGood module - Attempting to use prior values")
                 raw_input(">> ")
