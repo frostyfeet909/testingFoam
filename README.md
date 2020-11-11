@@ -1,4 +1,4 @@
-# testingFoam
+# testingFoam - https://github.com/frostyfeet909/testingFoam
 Some programs I'm working on.
 
 Requirments for each are in the respective readme and brief instruction on use.
