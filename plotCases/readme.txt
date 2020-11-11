@@ -5,4 +5,6 @@
 5. python main.py
 
 Might need to give executable premission to .run files.
-This program needs the most work, it all works its just janky
+This program needs the most work, it all works its just janky.
+
+Requires: numpy, scipy, and matplotlib
