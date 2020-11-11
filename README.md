@@ -1,4 +1,4 @@
-# testingFoam
+# testingFoam - https://github.com/frostyfeet909/testingFoam
 Some programs I'm working on. If you want to run it just navigate to this folder and: python main.py
 
 Requirments for each are in the respective readme and brief instruction on use.
@@ -21,10 +21,9 @@ referenceCase - An fully setup case that has been run, in this case by interFoam
 
 # TO DO
 
-1. Make plotDifference.py not so janky
-2. Fix plotColor.py properly
-3. Make a common folder for things they need like baseCase, referenceCase, dataInterface.py
-4. Change dataInterface.py to default path to the current WD
+1. Fix plotColor.py properly
+2. Make a common folder for things they need like baseCase, referenceCase, dataInterface.py
+3. Change dataInterface.py to default path to the current WD
 
 # Structure
 
