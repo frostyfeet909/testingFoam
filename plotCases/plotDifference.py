@@ -1,9 +1,7 @@
-# Expanded version of Federico's plotData.py, plots the difference between two cases - Needs some work but does work
-import scipy
-import numpy as np
-from matplotlib import rcParams
-import csv
+# Expanded version of Federico's plotData.py, plots the difference between two cases
 import matplotlib.pyplot as plt
+from matplotlib import rcParams
+from dataInterface import get_data
 
 plt.rcParams.update({'font.size': 22})
 
@@ -14,169 +12,84 @@ rcParams['text.usetex'] = True
 
 
 def main(working_dir):
-    plotVelocity(working_dir)
-    plotMass(working_dir)
-    plotPressure(working_dir)
+    reference_data = get_data(working_dir + "/plotCases/referenceCase", "/DataSummary.csv")
+    temp_data = get_data(working_dir + "/plotCases/tempCase", "/DataSummary.csv")
+
+    t_ref = []
+    umean_ref = []
+    umax_ref = []
+    mass_ref = []
+    pressure_ref = []
+
+    t_tmp = []
+    umean_tmp = []
+    umax_tmp = []
+    mass_tmp = []
+    pressure_tmp = []
+
+    for data_i, data_j in zip(reference_data, temp_data):
+        t_ref.append(float(data_i[0]))
+        umean_ref.append(float(data_i[1]))
+        umax_ref.append(float(data_i[2]))
+        mass_ref.append(float(data_i[4]))
+        pressure_ref.append(float(data_i[7]))
+
+        t_tmp.append(float(data_j[0]))
+        umean_tmp.append(float(data_j[1]))
+        umax_tmp.append(float(data_j[2]))
+        mass_tmp.append(float(data_j[4]))
+        pressure_tmp.append(float(data_j[7]))
+
+    plot_velocity(t_ref, t_tmp, umean_ref, umax_ref, umean_tmp, umax_tmp)
+    plot_mass(t_ref, t_tmp, mass_ref, mass_tmp)
+    plot_pressure(t_ref, t_tmp, pressure_ref, pressure_tmp)
 
 
-def plotVelocity():
-    # Initialize empty arrays
-    tIF = []
-    tPF = []
-    Umean = []
-    Umax = []
-    UmeanIF = []
-    UmeanPF = []
-    UmaxIF = []
-    UmaxPF = []
-
-    # Open file and read row by row
-    with open(('referenceCase/DataSummary.csv'), 'r') as csvfile:
-        plots = csv.reader(csvfile, delimiter=',')
-        for row in plots:
-            tIF.append(float(row[0]))
-            UmeanIF.append(float(row[1]))
-            UmaxIF.append(float(row[2]))
-
-    with open(('tempCase/DataSummary.csv'), 'r') as csvfile:
-        plots = csv.reader(csvfile, delimiter=',')
-        for row in plots:
-            tPF.append(float(row[0]))
-            UmeanPF.append(float(row[1]))
-            UmaxPF.append(float(row[2]))
-    """
-    for i in range(0, len(tIF)):
-        Umax.append(abs(UmaxPF[i]-UmaxIF[i]))
-        Umean.append(abs(UmeanPF[i]-UmeanIF[i]))
-
-    # Plot
-    plt.figure(figsize=(250 /25.4, 200 / 25.4))
-    plt.semilogy(tIF,Umean, label='Average',linewidth=3)
-    plt.semilogy(tIF,Umax, label='Max', linewidth=3)
-    plt.xlabel('Time [s]')
-    plt.ylabel('Magnitude of the difference in velocity magnitude [m/s]')
-    #plt.title('Interesting Graph\nCheck it out')
-    plt.title('Velocity Plot')
-    plt.legend(frameon=False,loc='lower right')
-    #plt.show()
-    plt.draw()
-    # Save in pdf format
-    plt.savefig('Udiff.pdf')
-    """
+def plot_velocity(t_ref, t_tmp, data_1_ref, data_2_ref, data_1_tmp, data_2_tmp):
+    # Finds the right data and adds info + saves the graph
     plt.figure(figsize=(250 / 25.4, 200 / 25.4))
-    plt.semilogy(tIF, UmeanIF, label='interFoam Average', linewidth=3)
-    plt.semilogy(tPF, UmeanPF, label='interPhaseFieldFoam Average', linewidth=3)
-    plt.semilogy(tIF, UmaxIF, label='interFoam Max', linewidth=3)
-    plt.semilogy(tPF, UmaxPF, label='interPhaseFieldFoam Max', linewidth=3)
+    plt.semilogy(t_ref, data_1_ref, label='interFoam Average', linewidth=3)
+    plt.semilogy(t_tmp, data_1_tmp, label='interPhaseFieldFoam Average', linewidth=3)
+    plt.semilogy(t_ref, data_2_ref, label='interFoam Max', linewidth=3)
+    plt.semilogy(t_tmp, data_2_tmp, label='interPhaseFieldFoam Max', linewidth=3)
+
     plt.xlabel('Time [s]')
     plt.ylabel('velocity magnitude [m/s]')
-    # plt.title('Interesting Graph\nCheck it out')
     plt.title('Velocity Plot')
     plt.legend(frameon=False, loc='lower right')
-    # plt.show()
     plt.draw()
+
     # Save in pdf format
     plt.savefig('Ucomparison.pdf')
 
 
-def plotMass():
-    # Initialize empty arrays
-    tIF = []
-    tPF = []
-    alpha = []
-    alphaIF = []
-    alphaPF = []
-    # Open file and read row by row
-    with open(('referenceCase/DataSummary.csv'), 'r') as csvfile:
-        plots = csv.reader(csvfile, delimiter=',')
-        for row in plots:
-            tIF.append(float(row[0]))
-            alphaIF.append(float(row[4]))
-
-    with open(('tempCase/DataSummary.csv'), 'r') as csvfile:
-        plots = csv.reader(csvfile, delimiter=',')
-        for row in plots:
-            tPF.append(float(row[0]))
-            alphaPF.append(float(row[4]))
-    """
-    for i in range(0, len(tIF)):
-        alpha.append(abs(alphaPF[i]-alphaIF[i]))
-
-
-    # Plot
-    plt.figure(figsize=(250 /25.4, 200 / 25.4))
-    plt.plot(tIF,alpha, linewidth=3)
-    plt.xlabel('Time [s]')
-    plt.ylabel('Magnitude of the difference in Average volume fraction')
-    #plt.title('Interesting Graph\nCheck it out')
-    plt.title('Mass plot')
-    plt.legend(frameon=False,loc='upper left')
-    #plt.show()
-    plt.draw()
-
-    # Save in pdf format
-    plt.savefig('massDiff.pdf')
-    """
+def plot_mass(t_ref, t_tmp, data_ref, data_tmp):
+    # Finds the right data and adds info + saves the graph
     plt.figure(figsize=(250 / 25.4, 200 / 25.4))
-    plt.plot(tIF, alphaIF, label='interFoam', linewidth=3)
-    plt.plot(tPF, alphaPF, label='interPhaseFieldFoam', linewidth=3)
+    plt.plot(t_ref, data_ref, label='interFoam', linewidth=3)
+    plt.plot(t_tmp, data_tmp, label='interPhaseFieldFoam', linewidth=3)
+
     plt.xlabel('Time [s]')
     plt.ylabel('Average volume fraction')
-    # plt.title('Interesting Graph\nCheck it out')
     plt.title('Mass Plot')
     plt.legend(frameon=False, loc='lower right')
-    # plt.show()
     plt.draw()
+
     # Save in pdf format
     plt.savefig('massComparison.pdf')
 
 
-def plotPressure():
-    # Initialize empty arrays
-    tIF = []
-    tPF = []
-    p = []
-    pIF = []
-    pPF = []
-    # Open file and read row by row
-    with open(('referenceCase/DataSummary.csv'), 'r') as csvfile:
-        plots = csv.reader(csvfile, delimiter=',')
-        for row in plots:
-            tIF.append(float(row[0]))
-            pIF.append(float(row[7]))
-
-    with open(('tempCase/DataSummary.csv'), 'r') as csvfile:
-        plots = csv.reader(csvfile, delimiter=',')
-        for row in plots:
-            tPF.append(float(row[0]))
-            pPF.append(float(row[7]))
-    """
-    for i in range(0, len(tIF)):
-        p.append(abs(pPF[i]-pIF[i]))
-
-    # Plot
-    plt.figure(figsize=(250 /25.4, 200 / 25.4))
-    plt.plot(tIF,p, linewidth=3)
-    plt.xlabel('Time [s]')
-    plt.ylabel('Magnitude of the difference in Maximum pressure difference [Pa]')
-    #plt.title('Interesting Graph\nCheck it out')
-    plt.title('Pressure Plot')
-    plt.legend(frameon=False,loc='upper left')
-    #plt.show()
-    plt.draw()
-
-    # Save in pdf format
-    plt.savefig('pressureDiff.pdf')
-    """
+def plot_pressure(t_ref, t_tmp, data_ref, data_tmp):
+    # Finds the right data and adds info + saves the graph
     plt.figure(figsize=(250 / 25.4, 200 / 25.4))
-    plt.plot(tIF, pIF, label='interFoam', linewidth=3)
-    plt.plot(tPF, pPF, label='interPhaseFieldFoam', linewidth=3)
+    plt.plot(t_ref, data_ref, label='interFoam', linewidth=3)
+    plt.plot(t_tmp, data_tmp, label='interPhaseFieldFoam', linewidth=3)
+
     plt.xlabel('Time [s]')
     plt.ylabel('Maximum pressure difference [Pa]')
-    # plt.title('Interesting Graph\nCheck it out')
     plt.title('Pressure Plot')
     plt.legend(frameon=False, loc='lower right')
-    # plt.show()
     plt.draw()
+
     # Save in pdf format
     plt.savefig('pressureComparison.pdf')

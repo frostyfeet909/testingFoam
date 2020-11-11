@@ -75,7 +75,7 @@ def main():
 
             for value in values:
                 call(["./generate.run", str(value[0]), str(value[1])])
-                plotDifference.main()
+                plotDifference.main(working_dir)
                 call(["./cleanup.run", working_dir, str(value[0]), str(value[1]), keep])
 
     elif promising == "n":
@@ -85,7 +85,7 @@ def main():
         x = raw_input(">> ")
 
         call(["./generate.run", str(ep), str(x)])
-        plotDifference.main()
+        plotDifference.main(working_dir)
         call(["./cleanup.run", working_dir, str(ep), str(x), keep])
 
     print("[*] Done!")
