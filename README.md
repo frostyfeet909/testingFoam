@@ -24,6 +24,8 @@ referenceCase - An fully setup case that has been run, in this case by interFoam
 1. Fix plotColor.py properly
 2. Make a common folder for things they need like baseCase, referenceCase, dataInterface.py
 3. Change dataInterface.py to default path to the current WD
+4. Fix relative imports
+5. Create a setup.py and migrate away from main.py for each package
 
 # Structure
 
