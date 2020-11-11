@@ -1,0 +1,52 @@
+#!/bin/bash
+# Generates and runs the cases for the various values of epsilon/X
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# Setting things
+application="interPhaseFieldFoam"
+# Location of the base case
+sim="baseCase"
+dataDump="$7/data.csv"
+
+# ep 0.00599987
+# x  0.0001
+
+# Iterate through ep,x
+for i in $(
+  seq "$1" "$2" "$3" # ep
+); do
+  for j in $(
+    seq "$4" "$5" "$6" # x
+  ); do
+
+    # Clone base
+    cp -r "$sim" "tempCase"
+
+    # Get in there
+    (
+      cd "tempCase" || exit
+
+      # Edit the case how I want
+      sed -i "63 s/[0-9]*\.[0-9]*/${i}/g" constant/transportProperties
+      sed -i "66 s/[0-9]*\.[0-9]*/${j}/g" constant/transportProperties
+
+      # Run the case
+      blockMesh
+      setFields
+      $application
+
+      # If sim worked then save the results, if not save 0's - awk adds ep,x onto the end
+      if [ -f "DataSummary.csv" ] && [ -d "1" ]; then
+        tail -n 1 "DataSummary.csv" | awk -F, -v a="$i" -v b="$j", '{$(NF+1)=a FS b;}1' OFS=, >>"$dataDump"
+      else
+        echo "0,0,0,0,0,0,0,0" | awk -F, -v a="$i" -v b="$j", '{$(NF+1)=a FS b;}1' OFS=, >>"$dataDump"
+      fi
+
+    )
+
+    rm -r "tempCase"
+
+  done
+done

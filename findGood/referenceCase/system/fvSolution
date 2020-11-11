@@ -1,0 +1,106 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     4.1                                |
+|   \\  /    A nd           | Web:         http://www.foam-extend.org         |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    rho
+    {}
+    pcorr
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-10;
+        relTol          0;
+    }
+
+    pd
+    {
+        solver          GAMG;
+        tolerance       1e-08;
+        relTol          0.005;
+        smoother        GaussSeidel;
+        cacheAgglomeration off;
+        nCellsInCoarsestLevel 20;
+        agglomerator    faceAreaPair;
+        mergeLevels     1;
+    }
+
+    pdFinal
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-07;
+        relTol          0;
+    }
+
+    U
+    {
+        solver          BiCGStab;
+        preconditioner  DILU;
+        tolerance       1e-06;
+        relTol          0;
+    }
+
+    C
+    {
+        solver          BiCGStab;
+        preconditioner  DILU;
+        tolerance       1e-07;
+        relTol          0;
+        maxIter 50;
+    }
+
+    blockCH
+    {
+        solver           BiCGStab;
+        preconditioner   Cholesky;
+
+        tolerance        1e-6;
+        relTol           0;
+
+        minIter          1;
+        maxIter          500;
+    }
+
+}
+PISO
+{
+    cAlpha          1;
+}
+PIMPLE
+{
+    momentumPredictor no;
+    nOuterCorrectors 1;
+    nCorrectors     4;
+    nNonOrthogonalCorrectors 0;
+    nAlphaCorr      1;
+    nAlphaSubCycles 2;
+
+    //- For interPhaseFieldFoam
+    nCCorr          4;
+    mixedCahnHilliard false;
+    pRefValue 0;
+    pdRefValue 0;
+    pdRefCell 0;
+
+    smoothC false;
+    nCSmoothIter 1;
+
+}
+
+
+// ************************************************************************* //

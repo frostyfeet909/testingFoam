@@ -1,0 +1,27 @@
+#!/bin/bash
+# Generates and runs the cases for the various values of epsilon/X
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# Setting things
+application="interPhaseFieldFoam"
+# Location of the base case
+sim="baseCase"
+
+# Clone base
+cp -r "$sim" "tempCase"
+
+# Get in there
+(
+  cd "tempCase" || exit
+
+  # Edit the case how I want
+  sed -i "63 s/[0-9]*\.[0-9]*/${1}/g" constant/transportProperties
+  sed -i "66 s/[0-9]*\.[0-9]*/${2}/g" constant/transportProperties
+
+  # Run the case
+  blockMesh
+  setFields
+  $application
+)

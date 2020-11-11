@@ -1,0 +1,7 @@
+/* dynamicCode:
+ * SHA1 = c404155b6d7d56732a6680a4e92853d4fbfa38c2
+ */
+functionObjectTemplate.C
+FilterFunctionObjectTemplate.C
+
+LIB = $(PWD)/../platforms/$(WM_OPTIONS)/lib/libDataSummary_c404155b6d7d56732a6680a4e92853d4fbfa38c2

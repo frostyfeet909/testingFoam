@@ -1,0 +1,23 @@
+#!/bin/bash
+# Cleans up after the plots are made
+
+working_dir="$1"
+ep="$2"
+x="$3"
+keep="$4"
+
+mkdir "${working_dir}/differencePlots_ep${ep}x${x}"
+mv *.pdf "${working_dir}/differencePlots_ep${ep}x${x}"
+
+if [ "$keep" == "y" ]; then
+  (
+    cd "tempCase/plots" || exit
+    python plotData.py
+  )
+
+  mv "tempCase" "${working_dir}/differencePlots_ep${ep}x${x}/ep${ep}x${x}"
+
+elif [ "$keep" == "n" ]; then
+  rm -r "tempCase"
+
+fi
