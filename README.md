@@ -1,6 +1,8 @@
 # testingFoam
 Some programs I'm working on.
 
+Requirments for each are in the respective readme and brief instruction on use.
+
 # Main applications
 findGood - Goes through all cases in the data.csv and outputs a text file with cases that performed within a certain tolerance of the referenceCase.
 
