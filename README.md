@@ -11,7 +11,7 @@ findGood - Goes through all cases in the data.csv and outputs a text file with c
 
 generateData - Generates a number of cases dependant on user input
 
-plotCases - Plots either the promising cases found by findGood or a custom case user defined, against the referenceCase
+!plotCases - Plots either the promising cases found by findGood or a custom case user defined, against the referenceCase (Broken)
 
 plotColor - Plots colormaps of the data for each global variable with axis (epsilon,X)
 
