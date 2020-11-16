@@ -20,7 +20,7 @@ def plotVelocity():
     Umax = []
 
     # Open file and read row by row
-    with open('../DataSummary.csv', 'r') as csvfile:
+    with open('../DataSummary.csv','r') as csvfile:
         plots = csv.reader(csvfile, delimiter=',')
         for row in plots:
             t.append(float(row[0]))
@@ -47,7 +47,7 @@ def plotMass():
     t = []
     alpha = []
     # Open file and read row by row
-    with open('../DataSummary.csv', 'r') as csvfile:
+    with open('../DataSummary.csv','r') as csvfile:
         plots = csv.reader(csvfile, delimiter=',')
         for row in plots:
             t.append(float(row[0]))
@@ -73,7 +73,7 @@ def plotPressure():
     t = []
     p = []
     # Open file and read row by row
-    with open('../DataSummary.csv', 'r') as csvfile:
+    with open('../DataSummary.csv','r') as csvfile:
         plots = csv.reader(csvfile, delimiter=',')
         for row in plots:
             t.append(float(row[0]))
