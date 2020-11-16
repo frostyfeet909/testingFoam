@@ -18,12 +18,21 @@ plotColor - Plots colormaps of the data for each global variable with axis (epsi
 # Additional files
 data.csv - Table of data from the last-time step of the simulations, last two columns are epsilon and X respectivly.
 
+dataRanges.csv - Table of data showing previously run 'batches' of tests.
+
 baseCase - An fully setup case that has not yet been run.
 
 referenceCase - An fully setup case that has been run, in this case by interFoam to act as a reference.
 
-# TO DO
+# Requirements
+1. python 2.7
+    1. matplotlib
+    2. numpy
+    3. seaborn?
+    4. scipy
+2. foam extend 4.1
 
+# TO DO
 1. Fix plotColor.py properly
 2. Fix relative imports
 3. Create a setup.py and migrate away from main.py for each package
@@ -34,28 +43,34 @@ referenceCase - An fully setup case that has been run, in this case by interFoam
 folder/
 
     findGood/
-  
-      -referenceCase
     
       ...
     
     generateData/
-  
-      -baseCase
     
       ...
     
     plotCases/
-  
-      -baseCase
-    
-      -referenceCase
     
       ...
     
     plotColor/
   
       ...
+      
+    resources/
     
-    -data.csv
+      -referenceCase
+      
+      -baseCase
+    
+      -data.csv
+      
+      -dataRanges.csv
+      
+      ...
+      
+    output/
+    
+      ...
   
