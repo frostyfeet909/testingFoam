@@ -11,7 +11,7 @@ findGood - Goes through all cases in the data.csv and outputs a text file with c
 
 generateData - Generates a number of cases dependant on user input
 
-!plotCases - Plots either the promising cases found by findGood or a custom case user defined, against the referenceCase (Broken)
+plotCases - Plots either the promising cases found by findGood or a custom case user defined, against the referenceCase
 
 plotColor - Plots colormaps of the data for each global variable with axis (epsilon,X)
 
@@ -33,8 +33,7 @@ referenceCase - An fully setup case that has been run, in this case by interFoam
 2. foam extend 4.1
 
 # TO DO
-1. Fix plotCases (only plotting half the range on the graph???)
-2. Create a setup.py and migrate away from main.py for each package
+1. Create a setup.py and migrate away from main.py for each package
 
 # Structure
 
