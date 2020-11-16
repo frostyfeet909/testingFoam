@@ -2,7 +2,7 @@
 import os
 
 
-def main():
+def main(base_path):
     print("Welcome!")
     print("\n")
     print("Choose you application:")
@@ -53,8 +53,10 @@ def main():
         raise SystemExit
 
     app_main.main()
-    main()  # Recursion
+    os.chdir(base_path)
+    main(base_path)  # Recursion
 
 
 if __name__ == "__main__":
-    main()
+    base = os.getcwd()
+    main(base)
