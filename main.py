@@ -1,5 +1,6 @@
 # Wrapper for all applications
-import os
+from os import chdir, mkdir
+from os.path import dirname, realpath, isdir
 from time import time
 
 
@@ -14,7 +15,13 @@ def main():
     print("4 - plotColor")
 
     choice = 1
-    base_path = os.path.dirname(os.path.realpath(__file__))
+    base_path = dirname(realpath(__file__))
+
+    if not isdir("output"):
+        mkdir("output")
+
+    if not isdir("resources"):
+        mkdir("resources")
 
     while choice != "" and choice != "q" and choice != "exit" and choice != "stop":
         choice = raw_input(">> ")
@@ -23,7 +30,7 @@ def main():
         if choice == "1":
             try:
                 from findGood import main as app_main
-                os.chdir("findGood")
+                chdir("findGood")
                 app_main.main()
             except ImportError or OSError:
                 print("[!!] Could not find findGood")
@@ -31,7 +38,7 @@ def main():
         elif choice == "2":
             try:
                 from generateData import main as app_main
-                os.chdir("generateData")
+                chdir("generateData")
                 app_main.main()
             except ImportError or OSError:
                 print("[!!] Could not find generateData")
@@ -39,7 +46,7 @@ def main():
         elif choice == "3":
             try:
                 from plotCases import main as app_main
-                os.chdir("plotCases")
+                chdir("plotCases")
                 app_main.main()
             except ImportError or OSError:
                 print("[!!] Could not find plotCases")
@@ -47,19 +54,20 @@ def main():
         elif choice == "4":
             try:
                 from plotColor import main as app_main
-                os.chdir("plotColor")
+                chdir("plotColor")
                 app_main.main()
             except ImportError or OSError:
                 print("[!!] Could not find plotColor")
 
         else:
-            print("[!!] Bye!")
-            raise SystemExit
+            print("[!] Not a valid choice")
 
-        os.chdir(base_path)
+        chdir(base_path)
         elapsed = time() - elapsed
         print("That took %s minutes" % str(round(elapsed / 60)))
         print("\n")
+
+    print("[*] Bye!")
 
 
 if __name__ == "__main__":
