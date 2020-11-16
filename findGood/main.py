@@ -1,15 +1,19 @@
 # Finds all the good cases for a given tolerance
 import findGood
-import os
+from os.path import join, isfile
 
 
 def main():
     print("Good case finder!")
 
-    if not os.path.isdir('referenceCase'):
+    # Checking for necessary resources
+    if not isfile(join("..", "resources", "referenceCase", "DataSummary.csv")):
         print("[!!] Need referenceCase in here!")
-        raise SystemExit
-    working_dir = ("/".join([str(x) for x in os.getcwd().split("/")[:-1]]))
+        return
+
+    if not isfile(join("..", "resources", "data.csv")):
+        print("[!!] Need data.csv in here!")
+        return
 
     print("\n")
     print("Default 1% tol - enter if want: mass pressure Umean Umax")
@@ -21,15 +25,7 @@ def main():
     else:
         tol = float(tol)
 
-    """
-    if " " in tol:
-        m, p, u_mean, u_max = tol.split(" ")
-        m, p, u_mean, u_max = float(m), float(p), float(u_mean), float(u_max)
-    else:
-        m, p, u_mean, u_max = 1.0, 1.0, 1.0, 1.0
-    """
-
-    findGood.main(working_dir, tol)
+    findGood.main(tol)
 
 
 if __name__ == "__main__":

@@ -1,19 +1,17 @@
 # Application that runs all others, gets input and calls others.
-import os
-from time import time
+from os.path import join, isdir
 from subprocess import call
-from dataInterface import remove_dupes
+from dataInterface import remove_dupes, write_data
 
 
 def main():
     print("Case generator!")
     print("Call fe41 first")
 
-    if not os.path.isdir('baseCase'):
+    # Checking for necessary resources
+    if not isdir(join("..", "resources", "baseCase")):
         print("[!!] Need baseCase in here!")
-        raise SystemExit
-
-    working_dir = ("/".join([str(x) for x in os.getcwd().split("/")[:-1]]))
+        return
 
     print("\n")
     print("Format: initial step_size final")  # Format is very specific
@@ -23,12 +21,12 @@ def main():
     print("X conditions: ")
     x_l, x_step, x_h = raw_input(">> ").split(" ")
 
-    elapsed = time()
-    call(["./generate.run", ep_l, ep_step, ep_h, x_l, x_step, x_h, working_dir])
-    remove_dupes(working_dir)
-    elapsed = time()-elapsed
-    
-    print("That took %s minutes" % str(round(elapsed/60)))
+    write_data(ep_l, ep_step, ep_h, x_l, x_step, x_h)
+
+    call(["./generate.run", ep_l, ep_step, ep_h, x_l, x_step, x_h])
+    remove_dupes()
+    remove_dupes("dataRanges.csv")
+
     print("[*] Done!")
 
 

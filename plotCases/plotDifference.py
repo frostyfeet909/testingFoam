@@ -11,10 +11,10 @@ rcParams['font.serif'] = ['Computer Modern Roman']
 rcParams['text.usetex'] = True
 
 
-def main(working_dir):
+def main():
     # Prepare the data and call functions to plot
-    reference_data = get_data(working_dir + "/plotCases/referenceCase", "/DataSummary.csv")
-    temp_data = get_data(working_dir + "/plotCases/tempCase", "/DataSummary.csv")
+    reference_data = get_data("referenceCase")
+    temp_data = get_data("tempCase")
 
     t_ref = []
     umean_ref = []

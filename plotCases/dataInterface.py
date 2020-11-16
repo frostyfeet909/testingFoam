@@ -1,32 +1,23 @@
 # modifies and retrieves entries from files
 from csv import reader
+from os.path import join
 from fileinput import FileInput
 
 
-def get_data(path, file_name="/data.csv"):
+def get_data(case):
     # Get the data from the csv
     rows = []
+    file_name = "DataSummary.csv"
+    path = join("..", "resources")
+    file_loc = join(path, case, file_name)
 
-    with open((path + file_name), 'r') as file:
+    with open(file_loc, 'r') as file:
         plots = reader(file, delimiter=',')
 
         for row in plots:
             rows.append(row)  # Because plots is NOT an iterable
 
     return rows
-
-
-def remove_dupes(path):
-    # Removes dupes from the csv
-    # This function runs way faster than I though it would
-
-    seen = set()  # set for O(1)
-    for line in FileInput((path + "/data.csv"), inplace=1):
-        if line in seen:
-            continue  # skip duplicate
-
-        seen.add(line)
-        print line,  # Standard output is now redirected to the file
 
 
 def get_good_data(path):

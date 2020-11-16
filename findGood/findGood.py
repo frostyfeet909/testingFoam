@@ -1,7 +1,7 @@
 # Finds all the good cases and saves them in text files
 
-# from operator import itemgetter
-from dataInterface import get_data
+from dataInterface import get_data, write_data
+from os.path import join
 
 """
 VELOCITY_MEAN_REF = 0.49415299
@@ -11,16 +11,9 @@ PRESSURE_REF = 1114.6359
 """
 
 
-def main(working_dir, tol):
-    # Runs the rest of the program
-
-    # os.chdir(working_dir)
-    catalogue_data(working_dir, tol)
-
-
-def find_reference_values(working_dir):
+def find_reference_values():
     # Finds the reference values from the last-line of the reference case
-    data = get_data(working_dir+"/findGood/referenceCase", "/DataSummary.csv")[-1]
+    data = get_data(join("referenceCase", "DataSummary.csv"))[-1]
     umean_ref = float(data[1])
     umax_ref = float(data[2])
     mass_ref = float(data[4])
@@ -28,25 +21,11 @@ def find_reference_values(working_dir):
     return umean_ref, umax_ref, mass_ref, pressure_ref
 
 
-def write_data(working_dir, val_name, values, per, ref):
-    # Write the good cases in text files
-    info = "There are " + str(len(values)) + " values " + str(per) + "% from " + str(ref)
-    name = working_dir + "/promising" + val_name + str(per) + "%.txt"
-
-    with open(name, 'w') as file:
-        file.write(info)
-        file.write("\n")
-        file.write("\n")
-        for i in values:
-            file.write(str(i[0]) + "    " + str(i[1]))
-            file.write("\n")
-
-
-def catalogue_data(working_dir, tol):
+def main(tol):
     # Find and catalogue the good cases
 
-    data = get_data(working_dir)
-    u_mean_ref, u_max_ref, m_ref, p_ref = find_reference_values(working_dir)
+    data = get_data()
+    u_mean_ref, u_max_ref, m_ref, p_ref = find_reference_values()
     mass_data = {}
     umean_data = {}
     umax_data = {}
@@ -93,7 +72,7 @@ def catalogue_data(working_dir, tol):
     umean_sorted = sorted(umean_data.items(), key=lambda x: abs(u_mean_ref-x[1]))
     umax_sorted = sorted(umax_data.items(), key=lambda x: abs(u_max_ref-x[1]))
 
-    write_data(working_dir, "mass", mass_sorted, tol, m_ref)
-    write_data(working_dir, "pressure", pressure_sorted, tol, p_ref)
-    write_data(working_dir, "velocity_mean", umean_sorted, tol, u_mean_ref)
-    write_data(working_dir, "velocity_max", umax_sorted, tol, u_max_ref)
+    write_data("mass", mass_sorted, tol, m_ref)
+    write_data("pressure", pressure_sorted, tol, p_ref)
+    write_data("velocity_mean", umean_sorted, tol, u_mean_ref)
+    write_data("velocity_max", umax_sorted, tol, u_max_ref)

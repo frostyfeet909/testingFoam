@@ -1,13 +1,14 @@
 # modifies and retrieves entries from files
-from csv import reader
-from fileinput import FileInput
+from csv import reader, writer
+from os.path import join
 
 
-def get_data(path, file_name="/data.csv"):
+def get_data(file_name="data.csv"):
     # Get the data from the csv
     rows = []
+    path = join("..", "resources")
 
-    with open((path + file_name), 'r') as file:
+    with open(join(path, file_name), 'r') as file:
         plots = reader(file, delimiter=',')
 
         for row in plots:
@@ -16,28 +17,22 @@ def get_data(path, file_name="/data.csv"):
     return rows
 
 
-def remove_dupes(path):
-    # Removes dupes from the csv
-    # This function runs way faster than I though it would
+def write_data(val_name, values, per, ref, path=join("..")):
+    # Write the good cases in text files and csv for referencing
+    info = "There are " + str(len(values)) + " values " + str(per) + "% from " + str(ref)
+    name_txt = join(path, "output", ("promising" + val_name + str(per) + "%.txt"))
+    name_csv = join(path, "resources", ("promising" + val_name + str(per) + "%.csv"))
 
-    seen = set()  # set for O(1)
-    for line in FileInput((path + "/data.csv"), inplace=1):
-        if line in seen:
-            continue  # skip duplicate
+    with open(name_txt, 'w') as file:
+        file.write(info)
+        file.write("\n")
+        file.write("\n")
+        for i in values:
+            file.write(str(i[0]) + "    " + str(i[1]))
+            file.write("\n")
 
-        seen.add(line)
-        print line,  # Standard output is now redirected to the file
-
-
-def get_good_data(path):
-    # Get the good data from a txt file
-    values = []
-
-    with open(path, 'r') as file:
-        lines = file.readlines()
-
-    for line in lines[2:]:
-        ep_temp, x_temp = line.split("    ")[0].split("x")
-        values.append([ep_temp[2:], x_temp])
-
-    return values
+    with open(name_csv, 'w') as file:
+        data_writer = writer(file)
+        for i in values:
+            ep_temp, x_temp = str(i[0]).split("x")
+            data_writer.writerow([str(i[1]), ep_temp[2:], x_temp])

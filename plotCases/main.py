@@ -1,5 +1,5 @@
 # Application that runs all others, gets input and calls others.
-import os
+from os.path import isfile, join
 import plotDifference
 from subprocess import call
 from dataInterface import get_good_data
@@ -10,9 +10,10 @@ def main():
     print("Case plotter!")
     print("Call fe41 first")
 
-    if not os.path.isdir('baseCase'):
-        print("[!!] Need baseCase in here!")
-        raise SystemExit
+    # Checking for necessary resources
+    if not isfile(join("..", "resources", "referenceCase", "DataSummary.csv")):
+        print("[!!] Need referenceCase in here!")
+        return
 
     promising = raw_input("Do you want to plot the promising [y/n]: ")
     keep = raw_input("Do you want to keep the sims [y/n]: ")
@@ -20,7 +21,6 @@ def main():
     if keep == "":
         keep = "y"
 
-    working_dir = ("/".join([str(x) for x in os.getcwd().split("/")[:-1]]))
     print("\n")
 
     if promising == "y" or promising == "":
@@ -52,9 +52,9 @@ def main():
             tol = float(tol)
 
         for val in val_names:
-            path = working_dir + "/" + "promising" + val + str(tol) + "%.txt"
+            path = join("..", "resources", ("promising" + val + str(tol) + "%.txt"))
 
-            if not os.path.isfile(path):
+            if not isfile(path):
                 print("[!] This promising doesn't exist: %s" % path)
                 raw_input(">> ")
                 continue
@@ -63,8 +63,8 @@ def main():
 
             for value in values:
                 call(["./generate.run", str(value[0]), str(value[1])])
-                plotDifference.main(working_dir)
-                call(["./cleanup.run", working_dir, str(value[0]), str(value[1]), keep])
+                plotDifference.main()
+                call(["./cleanup.run", str(value[0]), str(value[1]), keep])
 
     elif promising == "n":
         print("Epsilon: ")
@@ -73,8 +73,8 @@ def main():
         x = raw_input(">> ")
 
         call(["./generate.run", str(ep), str(x)])
-        plotDifference.main(working_dir)
-        call(["./cleanup.run", working_dir, str(ep), str(x), keep])
+        plotDifference.main()
+        call(["./cleanup.run", str(ep), str(x), keep])
 
     print("[*] Done!")
 
