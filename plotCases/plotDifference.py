@@ -1,14 +1,13 @@
 # Expanded version of Federico's plotData.py, plots the difference between two cases
 import matplotlib.pyplot as plt
-from matplotlib import rcParams
 from dataInterface import get_data
 
-plt.rcParams.update({'font.size': 22})
+# plt.rcParams.update({'font.size': 22})
 
-rcParams.update({'figure.autolayout': True})
-rcParams['font.family'] = 'serif'
-rcParams['font.serif'] = ['Computer Modern Roman']
-rcParams['text.usetex'] = True
+# rcParams.update({'figure.autolayout': True})
+# rcParams['font.family'] = 'serif'
+# rcParams['font.serif'] = ['Computer Modern Roman']
+# rcParams['text.usetex'] = True
 
 
 def main():
@@ -40,6 +39,10 @@ def main():
         umax_tmp.append(float(data_j[2]))
         mass_tmp.append(float(data_j[4]))
         pressure_tmp.append(float(data_j[7]))
+
+    print("TEMP: ")
+    print(mass_tmp[-1])
+    print(t_tmp[-1])
 
     plot_velocity(t_ref, t_tmp, umean_ref, umax_ref, umean_tmp, umax_tmp)
     plot_mass(t_ref, t_tmp, mass_ref, mass_tmp)

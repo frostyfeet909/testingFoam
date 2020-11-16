@@ -52,7 +52,7 @@ def main():
             tol = float(tol)
 
         for val in val_names:
-            path = join("..", "resources", ("promising" + val + str(tol) + "%.txt"))
+            path = join("..", "resources", ("promising" + val + str(tol) + "%.csv"))
 
             if not isfile(path):
                 print("[!] This promising doesn't exist: %s" % path)
@@ -61,10 +61,24 @@ def main():
 
             values = get_good_data(path)
 
-            for value in values:
-                call(["./generate.run", str(value[0]), str(value[1])])
+            print("[*] There are %s promising cases for %s" % (len(values), val))
+            print("How many would you like to plot (Default 5)?")
+            num = raw_input(">> ")
+
+            if num == "":
+                num = 5
+            else:
+                num = int(num)
+
+            for value in values[0:num]:
+                call(["./generate.run", str(value[1]), str(value[2])])
+                raw_input("")
                 plotDifference.main()
-                call(["./cleanup.run", str(value[0]), str(value[1]), keep])
+                raw_input("")
+                call(["./cleanup.run", str(value[1]), str(value[2]), keep])
+                print(value[1])
+                print(value[2])
+                break
 
     elif promising == "n":
         print("Epsilon: ")

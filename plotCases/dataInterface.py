@@ -1,7 +1,6 @@
 # modifies and retrieves entries from files
 from csv import reader
 from os.path import join
-from fileinput import FileInput
 
 
 def get_data(case):
@@ -22,13 +21,12 @@ def get_data(case):
 
 def get_good_data(path):
     # Get the good data from a txt file
-    values = []
+    rows = []
 
     with open(path, 'r') as file:
-        lines = file.readlines()
+        plots = reader(file, delimiter=',')
 
-    for line in lines[2:]:
-        ep_temp, x_temp = line.split("    ")[0].split("x")
-        values.append([ep_temp[2:], x_temp])
+        for row in plots:
+            rows.append(row)  # Because plots is NOT an iterable
 
-    return values
+    return rows
