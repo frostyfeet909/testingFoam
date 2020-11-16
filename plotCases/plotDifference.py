@@ -27,22 +27,19 @@ def main():
     mass_tmp = []
     pressure_tmp = []
 
-    for data_i, data_j in zip(reference_data, temp_data):
-        t_ref.append(float(data_i[0]))
-        umean_ref.append(float(data_i[1]))
-        umax_ref.append(float(data_i[2]))
-        mass_ref.append(float(data_i[4]))
-        pressure_ref.append(float(data_i[7]))
+    for data in reference_data:
+        t_ref.append(float(data[0]))
+        umean_ref.append(float(data[1]))
+        umax_ref.append(float(data[2]))
+        mass_ref.append(float(data[4]))
+        pressure_ref.append(float(data[7]))
 
-        t_tmp.append(float(data_j[0]))
-        umean_tmp.append(float(data_j[1]))
-        umax_tmp.append(float(data_j[2]))
-        mass_tmp.append(float(data_j[4]))
-        pressure_tmp.append(float(data_j[7]))
-
-    print("TEMP: ")
-    print(mass_tmp[-1])
-    print(t_tmp[-1])
+    for data in temp_data:
+        t_tmp.append(float(data[0]))
+        umean_tmp.append(float(data[1]))
+        umax_tmp.append(float(data[2]))
+        mass_tmp.append(float(data[4]))
+        pressure_tmp.append(float(data[7]))
 
     plot_velocity(t_ref, t_tmp, umean_ref, umax_ref, umean_tmp, umax_tmp)
     plot_mass(t_ref, t_tmp, mass_ref, mass_tmp)

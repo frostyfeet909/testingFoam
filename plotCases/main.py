@@ -72,13 +72,8 @@ def main():
 
             for value in values[0:num]:
                 call(["./generate.run", str(value[1]), str(value[2])])
-                raw_input("")
                 plotDifference.main()
-                raw_input("")
                 call(["./cleanup.run", str(value[1]), str(value[2]), keep])
-                print(value[1])
-                print(value[2])
-                break
 
     elif promising == "n":
         print("Epsilon: ")
