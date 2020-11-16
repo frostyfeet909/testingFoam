@@ -2,6 +2,8 @@
 import matplotlib.pyplot as plt
 from numpy import meshgrid
 from dataInterface import get_data
+import subprocess
+from os.path import join
 
 plt.rcParams.update({'font.size': 22})
 
@@ -12,26 +14,30 @@ class Fruit:
         self.inside = "Mushy"
 
 
-def main(working_dir, epsilon_lower, epsilon_higher, x_lower, x_higher, c_epsilon, c_x):
+def main(ep_l, ep_step, ep_h, x_l, x_step, x_h):
     # Creates 3 different type of color maps per global quantity
     colors = ['Reds', 'seismic', 'tab20']
-    plot(working_dir, colors, epsilon_lower, epsilon_higher, x_lower, x_higher, c_epsilon, c_x)
+    plot(colors, ep_l, ep_step, ep_h, x_l, x_step, x_h)
 
     banana = Fruit()
 
 
-def catalogue_data(working_dir, ep_l, ep_h, x_l, x_h, c_ep=None, c_x=None):
+def catalogue_data(ep_l, ep_step, ep_h, x_l, x_step, x_h):
     # Checks the cases and generates 2D arrays that works with pcolormesh
-    data = get_data(working_dir)
+    data = get_data()
+    data_ref = get_data(join("referenceCase", "DataSummary.csv"))[-1]
     mass_data = []
     umean_data = []
     umax_data = []
     pressure_data = []
-    ep = []
-    x = []
-    # board_initial = set()
-    # board_final = set()
+    # ep = [] x = [] Need to get the exact range used by bash - I've seen some floating point errors with numpy doing
+    # it so this is a dirty workaround I need to fix
+    range_temp = subprocess.Popen(['seq', ep_l, ep_step, ep_h], stdout=subprocess.PIPE)  # Don't even ask
+    ep_range = range_temp.communicate()[0].split("\n")[:-1]
+    range_temp = subprocess.Popen(['seq', x_l, x_step, x_h], stdout=subprocess.PIPE)  # Don't even ask
+    x_range = range_temp.communicate()[0].split("\n")[:-1]
 
+    """
     for sim in data:
         ep_temp = float(sim[8])
         x_temp = float(sim[9])
@@ -43,12 +49,7 @@ def catalogue_data(working_dir, ep_l, ep_h, x_l, x_h, c_ep=None, c_x=None):
         if x_temp not in x:
             if x_l <= x_temp <= x_h:
                 x.append(x_temp)
-
-        # if element not in board_initial and ep_temp in ep and x_temp in x:
-        #     board_initial.add(element)
-
-    ep.sort()
-    x.sort()
+    """
 
     # The methods I'm working on to stop the colormaps looking clustered when there is a high concentration of data in
     # part of the domain I'm interested in, attempt 2 which is currently in use can cause blank spaces in the graph but
@@ -97,6 +98,7 @@ def catalogue_data(working_dir, ep_l, ep_h, x_l, x_h, c_ep=None, c_x=None):
                 break
     """
 
+    """
     # Attempt 2
 
     # Reduce size of longer variable until they match
@@ -106,6 +108,7 @@ def catalogue_data(working_dir, ep_l, ep_h, x_l, x_h, c_ep=None, c_x=None):
     while len(x) > len(ep):
         x.remove(max(x, key=lambda y: abs(y - (x_h - x_l))))
     # Stab randomly and hope it works
+    """
 
     """
     # Attempt 3
@@ -159,38 +162,42 @@ def catalogue_data(working_dir, ep_l, ep_h, x_l, x_h, c_ep=None, c_x=None):
     """
 
     # Pre-allocating big arrays
-    for i in range(0, len(ep)):
+    for i in range(0, len(ep_range)):
         mass_data.append([])
         umean_data.append([])
         umax_data.append([])
         pressure_data.append([])
-        for j in range(0, len(x)):
+        for j in range(0, len(x_range)):
             mass_data[i].append(0)
             umean_data[i].append(0)
             umax_data[i].append(0)
             pressure_data[i].append(0)
 
     # Make the arrays
+    umean_ref = float(data_ref[1])
+    umax_ref = float(data_ref[2])
+    mass_ref = float(data_ref[4])
+    pressure_ref = float(data_ref[7])
+
     for sim in data:
-        ep_temp = float(sim[8])
-        x_temp = float(sim[9])
+        ep_temp = sim[8]
+        x_temp = sim[9]
 
-        if ep_temp in ep and x_temp in x:
-            i = ep.index(ep_temp)
-            j = x.index(x_temp)
+        if ep_temp in ep_range and x_temp in x_range:
+            i = ep_range.index(ep_temp)
+            j = x_range.index(x_temp)
 
-            umean_data[i][j] = float(sim[1])
-            umax_data[i][j] = float(sim[2])
-            mass_data[i][j] = float(sim[4])
-            pressure_data[i][j] = float(sim[7])
+            umean_data[i][j] = abs(float(sim[1])-umean_ref)
+            umax_data[i][j] = abs(float(sim[2])-umax_ref)
+            mass_data[i][j] = abs(float(sim[4])-mass_ref)
+            pressure_data[i][j] = abs(float(sim[7])-pressure_ref)
 
-    return ep, x, umean_data, umax_data, mass_data, pressure_data
+    return ep_range, x_range, umean_data, umax_data, mass_data, pressure_data
 
 
-def plot(working_dir, colors, epsilon_lower, epsilon_higher, x_lower, x_higher, c_epsilon, c_x):
+def plot(colors, ep_l, ep_step, ep_h, x_l, x_step, x_h):
     # Plots the colormaps
-    ep, x, umean_data, umax_data, mass_data, pressure_data = catalogue_data(working_dir, epsilon_lower, epsilon_higher,
-                                                                            x_lower, x_higher, c_epsilon, c_x)
+    ep, x, umean_data, umax_data, mass_data, pressure_data = catalogue_data(ep_l, ep_step, ep_h, x_l, x_step, x_h)
     x, y = meshgrid(ep, x)
 
     if len(x) > 1 and len(y) > 1:
@@ -216,10 +223,10 @@ def plot(working_dir, colors, epsilon_lower, epsilon_higher, x_lower, x_higher, 
 
 def plot_velocity_mean(color):
     # Finds the right data and adds info + saves the graph
-    plt.colorbar(label='velocity magnitude [m/s]', spacing='proportional')
+    plt.colorbar(label='Difference in velocity magnitude [m/s]', spacing='proportional')
     plt.xlabel('Epsilon - Interface Thickness')
     plt.ylabel('X - Mobility Factor')
-    plt.title('Velocity Mean Plot')
+    plt.title('Velocity at the last time step')
 
     # Save in pdf format
     plt.savefig('Umean' + color + '.pdf')
@@ -227,10 +234,10 @@ def plot_velocity_mean(color):
 
 def plot_velocity_max(color):
     # Finds the right data and adds info + saves the graph
-    plt.colorbar(label='velocity magnitude [m/s]', spacing='proportional')
+    plt.colorbar(label='Difference in velocity magnitude [m/s]', spacing='proportional')
     plt.xlabel('Epsilon - Interface Thickness')
     plt.ylabel('X - Mobility Factor')
-    plt.title('Velocity Max Plot')
+    plt.title('Velocity at the last time step')
 
     # Save in pdf format
     plt.savefig('Umax' + color + '.pdf')
@@ -238,10 +245,10 @@ def plot_velocity_max(color):
 
 def plot_mass(color):
     # Finds the right data and adds info + saves the graph
-    plt.colorbar(label='Average volume fraction', spacing='proportional')
+    plt.colorbar(label='Difference in Average volume fraction', spacing='proportional')
     plt.xlabel('Epsilon - Interface Thickness')
     plt.ylabel('X - Mobility Factor')
-    plt.title('Mass Plot')
+    plt.title('Mass at the last time step')
 
     # Save in pdf format
     plt.savefig('alphaOsc' + color + '.pdf')
@@ -249,10 +256,10 @@ def plot_mass(color):
 
 def plot_pressure(color):
     # Finds the right data and adds info + saves the graph
-    plt.colorbar(label='Maximum pressure difference [Pa]', spacing='proportional')
+    plt.colorbar(label='Difference in Maximum pressure difference [Pa]', spacing='proportional')
     plt.xlabel('Epsilon - Interface Thickness')
     plt.ylabel('X - Mobility Factor')
-    plt.title('Pressure Plot')
+    plt.title('Pressure at the last time step')
 
     # Save in pdf format
     plt.savefig('pressure' + color + '.pdf')

@@ -1,11 +1,10 @@
 #!/bin/bash
 # Cleans up after the color maps are made
 
-working_dir="$1"
-ep_l="$2"
-ep_h="$3"
-x_l="$4"
-x_h="$5"
+ep_l="$1"
+ep_h="$2"
+x_l="$3"
+x_h="$4"
 
-mkdir "${working_dir}/colorPlots_ep${ep_l}-${ep_h}x${x_l}-${x_h}"
-mv *.pdf "${working_dir}/colorPlots_ep${ep_l}-${ep_h}x${x_l}-${x_h}"
+mkdir "../output/colorPlots_ep${ep_l}-${ep_h}x${x_l}-${x_h}"
+mv *.pdf "../output/colorPlots_ep${ep_l}-${ep_h}x${x_l}-${x_h}"

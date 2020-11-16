@@ -1,29 +1,50 @@
 # Application that runs all others, gets input and calls others.
-import os
+from os.path import join, isfile
 import plotColor
 from subprocess import call
+from dataInterface import get_data
 
 
 def main():
     print("Colormap creator!")
     print("Call fe41 first")
 
-    working_dir = ("/".join([str(x) for x in os.getcwd().split("/")[:-1]]))
-    if not os.path.exists(working_dir+'/data.csv'):
-        print("[!!] No data.csv please make some cases first")
-        raise SystemExit
+    # Checking for necessary resources
+    if not isfile(join("..", "resources", "referenceCase", "DataSummary.csv")):
+        print("[!!] Need referenceCase in here!")
+        return
+
+    if not isfile(join("..", "resources", "data.csv")):
+        print("[!!] Need data.csv in here!")
+        return
 
     print("\n")
-    print("Format: initial final")  # Format is very specific
-    print("Epsilon conditions: ")
-    ep_l, ep_h = raw_input(">> ").split(" ")
-    print("X conditions: ")
-    x_l, x_h = raw_input(">> ").split(" ")
 
-    ep_l, ep_h, x_l, x_h = float(ep_l), float(ep_h), float(x_l), float(x_h)
+    data_ranges = get_data("dataRanges.csv")
+    print("Axis need to be squarish")
+    print("Here are the (hopefully) square ranges you have data for: ")
+    for ranges in data_ranges:
+        print("Ep: %s %s %s" % (ranges[0], ranges[1], ranges[2]))
+        print("X: %s %s %s" % (ranges[3], ranges[4], ranges[5]))
+        print("\n")
 
-    plotColor.main(working_dir, ep_l, ep_h, x_l, x_h)
-    call(["./cleanup.run", working_dir, str(ep_l), str(ep_h), str(x_l), str(x_h)])
+    print("Pick the corresponding number or attempt to make your own by entering 0: ")
+    choice = raw_input(">> ")
+
+    if choice == "0":
+        print("Format: initial step_size final")  # Format is very specific
+        print("Epsilon conditions: ")
+        ep_l, ep_step, ep_h = raw_input(">> ").split(" ")
+        print("X conditions: ")
+        x_l, x_step, x_h = raw_input(">> ").split(" ")
+    else:
+        if choice == "":
+            choice = 1
+
+        ep_l, ep_step, ep_h, x_l, x_step, x_h = data_ranges[int(choice)-1]
+
+    plotColor.main(ep_l, ep_step, ep_h, x_l, x_step, x_h)
+    call(["./cleanup.run", ep_l, ep_h, x_l, x_h])
 
     print("[*] Done!")
 
