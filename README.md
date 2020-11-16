@@ -33,10 +33,11 @@ referenceCase - An fully setup case that has been run, in this case by interFoam
 2. foam extend 4.1
 
 # TO DO
-1. Fix plotColor.py properly
+1. Fix plotColor.py P R O P E R L Y
 2. Fix relative imports
 3. Create a setup.py and migrate away from main.py for each package
 4. Update plotColor to use the difference instead of absolute value
+5. 
 
 # Structure
 
