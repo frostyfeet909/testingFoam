@@ -30,6 +30,7 @@ referenceCase - An fully setup case that has been run, in this case by interFoam
 4. Fix relative imports
 5. Create a setup.py and migrate away from main.py for each package
 6. Update plotColor to use the difference instead of absolute value
+7. Update plotCases plot n number of promising cases
 
 # Structure
 
