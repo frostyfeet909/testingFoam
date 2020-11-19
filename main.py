@@ -1,6 +1,6 @@
 # Wrapper for all applications
 from os import chdir, mkdir
-from os.path import dirname, realpath, isdir, isfile, join
+from os.path import dirname, realpath, isdir
 from time import time
 
 
