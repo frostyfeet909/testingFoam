@@ -1,9 +1,10 @@
 # Main application, plots color maps of all the global variables
 import matplotlib.pyplot as plt
-from numpy import meshgrid
+from numpy import meshgrid, arange
 from dataInterface import get_data
 import subprocess
 from os.path import join
+from matplotlib.ticker import FormatStrFormatter
 
 plt.rcParams.update({'font.size': 22})
 
@@ -198,10 +199,11 @@ def catalogue_data(ep_l, ep_step, ep_h, x_l, x_step, x_h):
 def plot(colors, ep_l, ep_step, ep_h, x_l, x_step, x_h):
     # Plots the colormaps
     ep, x, umean_data, umax_data, mass_data, pressure_data = catalogue_data(ep_l, ep_step, ep_h, x_l, x_step, x_h)
-    x, y = meshgrid(ep, x)
+    x, y = meshgrid(format_number_list(ep), format_number_list(x))
 
     if len(x) > 1 and len(y) > 1:
         for color in colors:
+
             plt.figure(figsize=(250 / 25.4, 200 / 25.4))
             plt.pcolormesh(x, y, umean_data, cmap=plt.cm.get_cmap(color), shading='auto')
             plot_velocity_mean(color)
@@ -219,6 +221,29 @@ def plot(colors, ep_l, ep_step, ep_h, x_l, x_step, x_h):
             plot_pressure(color)
     else:
         print("[!] Not enough data points to plot maps")
+
+
+def format_number_list(num_list):
+    new_num_list = []
+
+    for num in num_list:
+        num = str(num)
+        relevant = False
+        new_num = ""
+        for i in num[::-1]:
+            if i != "0":
+                relevant = True
+
+            if relevant:
+                new_num += i
+
+        new_num = new_num[::-1]
+        if new_num[-1] == ".":
+            new_num += "0"
+
+        new_num_list.append(new_num)
+
+    return new_num_list
 
 
 def plot_velocity_mean(color):
