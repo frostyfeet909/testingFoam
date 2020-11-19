@@ -41,43 +41,44 @@ other - Folder of other useful scripts.
 # Structure
 
     testingFoam/
-
         findGood/
-    
-            ...
+            -dataInterface.py
+            -findGood.py
+            -main.py
     
         generateData/
-    
-            ...
+            -dataInterface.py
+            -generate.run
+            -main.py
     
         plotCases/
-    
-            ...
+            -cleanup.run
+            -dataInterface.py
+            -generate.run
+            -main.py
+            -plotDifference.py
     
         plotColor/
-  
-            ...
+            -dataInterface.py
+            -main.py
+            -plotColor.py
       
         resources/
-    
-            -referenceCase
-      
-            -baseCase
-    
+            referenceCase/
+              -1/
+              -DataSummary.csv
+              ...
+            baseCase/
+              ...
+              
             -data.csv
-      
             -dataRanges.csv
-      
             ...
       
         output/
-    
             ...
   
         other/
-    
             -makeGif.run
             
         -main.py
-        
-        ...
