@@ -1,6 +1,6 @@
 # Wrapper for all applications
 from os import chdir, mkdir
-from os.path import dirname, realpath, isdir
+from os.path import dirname, realpath, isdir, isfile
 from time import time
 
 
@@ -13,10 +13,12 @@ def main():
     print("2 - generateData")
     print("3 - plotCases")
     print("4 - plotColor")
+    print("\n")
 
     choice = 1
     base_path = dirname(realpath(__file__))
 
+    # Generating required stuff if needed
     if not isdir("output"):
         mkdir("output")
 
@@ -29,7 +31,7 @@ def main():
         elapsed = time()
         if choice == "1":
             try:
-                from findGood import main as app_main
+                from findGood import main as app_main  # This is half good, half bad
                 chdir("findGood")
                 app_main.main()
             except ImportError or OSError:

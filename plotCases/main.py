@@ -7,21 +7,23 @@ from dataInterface import get_good_data
 
 def main():
     # Runs the whole thing
+    print("\n")
     print("Case plotter!")
     print("Call fe41 first")
+    print("\n")
 
     # Checking for necessary resources
     if not isfile(join("..", "resources", "referenceCase", "DataSummary.csv")):
-        print("[!!] Need referenceCase in here!")
+        print("[!!] A referenceCase is required in the resources folder")
+        print("\n")
         return
 
     promising = raw_input("Do you want to plot the promising [y/n]: ")
     keep = raw_input("Do you want to keep the sims [y/n]: ")
+    print("\n")
 
     if keep == "":
         keep = "y"
-
-    print("\n")
 
     if promising == "y" or promising == "":
         print("Default mass promising - enter m or p or umean or umax (or any combination):")
@@ -55,13 +57,14 @@ def main():
             path = join("..", "resources", ("promising" + val + str(tol) + "%.csv"))
 
             if not isfile(path):
+                print("\n")
                 print("[!] This promising doesn't exist: %s" % path)
-                raw_input(">> ")
+                print("\n")
                 continue
 
             values = get_good_data(path)
 
-            print("[*] There are %s promising cases for %s" % (len(values), val))
+            print("There are %s promising cases for %s" % (len(values), val))
             print("How many would you like to plot (Default 5)?")
             num = raw_input(">> ")
 
@@ -85,6 +88,7 @@ def main():
         plotDifference.main()
         call(["./cleanup.run", str(ep), str(x), keep])
 
+    print("\n")
     print("[*] Done!")
 
 

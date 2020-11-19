@@ -4,18 +4,21 @@ from os.path import join, isfile
 
 
 def main():
+    print("\n")
     print("Good case finder!")
-
+    print("\n")
+    
     # Checking for necessary resources
     if not isfile(join("..", "resources", "referenceCase", "DataSummary.csv")):
-        print("[!!] Need referenceCase in here!")
+        print("[!!] A referenceCase is required in the resources folder")
+        print("\n")
         return
 
     if not isfile(join("..", "resources", "data.csv")):
-        print("[!!] Need data.csv in here!")
+        print("[!!] You need some results first!")
+        print("\n")
         return
 
-    print("\n")
     print("Default 1% tol - enter if want: mass pressure Umean Umax")
 
     # Setting error tolerance
@@ -26,6 +29,9 @@ def main():
         tol = float(tol)
 
     findGood.main(tol)
+
+    print("\n")
+    print("[*] Done!")
 
 
 if __name__ == "__main__":

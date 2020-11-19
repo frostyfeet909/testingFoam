@@ -5,15 +5,17 @@ from dataInterface import remove_dupes, write_data
 
 
 def main():
+    print("\n")
     print("Case generator!")
     print("Call fe41 first")
+    print("\n")
 
     # Checking for necessary resources
     if not isdir(join("..", "resources", "baseCase")):
-        print("[!!] Need baseCase in here!")
+        print("[!!] A baseCase is required in the resources folder")
+        print("\n")
         return
 
-    print("\n")
     print("Format: initial step_size final")  # Format is very specific
     
     print("Epsilon conditions: ")
@@ -27,6 +29,7 @@ def main():
     remove_dupes()
     remove_dupes("dataRanges.csv")
 
+    print("\n")
     print("[*] Done!")
 
 

@@ -6,30 +6,43 @@ from dataInterface import get_data
 
 
 def main():
+    print("\n")
     print("Colormap creator!")
     print("Call fe41 first")
+    print("\n")
 
     # Checking for necessary resources
     if not isfile(join("..", "resources", "referenceCase", "DataSummary.csv")):
-        print("[!!] Need referenceCase in here!")
+        print("[!!] A referenceCase is required in the resources folder")
+        print("\n")
         return
 
     if not isfile(join("..", "resources", "data.csv")):
-        print("[!!] Need data.csv in here!")
+        print("[!!] You need some results first!")
+        print("\n")
         return
 
-    print("\n")
-
-    data_ranges = get_data("dataRanges.csv")
     print("Axis need to be squarish")
-    print("Here are the (hopefully) square ranges you have data for: ")
-    for ranges in data_ranges:
-        print("Ep: %s %s %s" % (ranges[0], ranges[1], ranges[2]))
-        print("X: %s %s %s" % (ranges[3], ranges[4], ranges[5]))
-        print("\n")
+    print("Therefore it's easier if you plot the colormap using a square data set you generated data for")
 
-    print("Pick the corresponding number or attempt to make your own by entering 0: ")
-    choice = raw_input(">> ")
+    if not isfile(join("..", "resources", "dataRanges.csv")):
+        print("[!] Looks like you haven't run any data ranges yourself so using this script may be a little trickier")
+        print("\n")
+        choice = "0"
+
+    else:
+        data_ranges = get_data("dataRanges.csv")
+        print("Here are the (hopefully) square ranges you have data for: ")
+        print("\n")
+        for ranges in data_ranges:
+            print("Option %i" % (data_ranges.index(ranges)+1))
+            print("Ep: %s %s %s" % (ranges[0], ranges[1], ranges[2]))
+            print("X: %s %s %s" % (ranges[3], ranges[4], ranges[5]))
+            print("\n")
+
+        print("Pick the corresponding number or attempt to make your own by entering 0: ")
+        choice = raw_input(">> ")
+        print("\n")
 
     if choice == "0":
         print("Format: initial step_size final")  # Format is very specific
@@ -46,6 +59,7 @@ def main():
     plotColor.main(ep_l, ep_step, ep_h, x_l, x_step, x_h)
     call(["./cleanup.run", ep_l, ep_h, x_l, x_h])
 
+    print("\n")
     print("[*] Done!")
 
 

@@ -4,7 +4,7 @@ Some programs I'm working on. If you want to run it just navigate to this folder
 1. fe41
 2. python main.py
 
-Requirements for each are in the respective readme and brief instruction on use.
+Requirements for each are in the respective readme and brief instruction on use (they're very out of date). Any folders/files listed in the structure needed for execution either come packaged with it or will be generated on first run.
 
 # Main applications
 findGood - Goes through all cases in the data.csv and outputs a text file with cases that performed within a certain tolerance of the referenceCase.
@@ -37,6 +37,7 @@ other - Folder of other useful scripts.
 # TO DO
 1. Create a setup.py and migrate away from main.py for each package
 2. Update readme+main.py in each sub-directory
+3. Clean up plotColor
 
 # Structure
 
