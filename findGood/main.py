@@ -7,7 +7,7 @@ def main():
     print("\n")
     print("Good case finder!")
     print("\n")
-    
+
     # Checking for necessary resources
     if not isfile(join("..", "resources", "referenceCase", "DataSummary.csv")):
         print("[!!] A referenceCase is required in the resources folder")

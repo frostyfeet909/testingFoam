@@ -1,6 +1,6 @@
 # Wrapper for all applications
 from os import chdir, mkdir
-from os.path import dirname, realpath, isdir, isfile
+from os.path import dirname, realpath, isdir, isfile, join
 from time import time
 
 
@@ -13,9 +13,10 @@ def main():
     print("2 - generateData")
     print("3 - plotCases")
     print("4 - plotColor")
+    print("5 - help")
     print("\n")
 
-    choice = 1
+    choice = "1"
     base_path = dirname(realpath(__file__))
 
     # Generating required stuff if needed
@@ -60,6 +61,12 @@ def main():
                 app_main.main()
             except ImportError or OSError:
                 print("[!!] Could not find plotColor")
+
+        elif choice == "5":
+            print("Common things that may be wrong:")
+            print("- You might need to give the bash scripts run permissions")
+            print("- baseCase is an fully setup case ready to be run by foam extend for the algorithm your testing")
+            print("- referenceCase is an computed case done using the reference algorithm")
 
         else:
             print("[!] Not a valid choice")
