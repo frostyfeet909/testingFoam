@@ -31,7 +31,7 @@ def catalogue_data(ep_l, ep_step, ep_h, x_l, x_step, x_h):
     umax_data = []
     pressure_data = []
     # ep = [] x = [] Need to get the exact range used by bash - I've seen some floating point errors with numpy doing
-    # it so this is a dirty workaround I need to fix
+    # it so this is a dirty workaround I'll make better later
     range_temp = subprocess.Popen(['seq', ep_l, ep_step, ep_h], stdout=subprocess.PIPE)  # Don't even ask
     ep_range = range_temp.communicate()[0].split("\n")[:-1]
     range_temp = subprocess.Popen(['seq', x_l, x_step, x_h], stdout=subprocess.PIPE)  # Don't even ask
