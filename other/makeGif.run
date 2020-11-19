@@ -1,0 +1,13 @@
+#!/bin/bash
+# Creates a GIF with an appropriate name based on what the folder is called
+# Requires you to use 'save animation' in paraview to create a multitude of jpgs first then run this script where they
+# are stored
+name=$1
+
+if [ "$name" == "" ]; then
+  name="${PWD##*/}"
+fi
+
+convert -delay 20 -loop 0 *.jpg "${name}.gif"
+rm *.jpg
+echo "${name}.gif Created"
