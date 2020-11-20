@@ -38,6 +38,7 @@ other - Folder of other useful scripts.
 1. Create a setup.py and migrate away from main.py for each package
 2. Update readme+main.py in each sub-directory
 3. Clean up plotColor
+4. Fix axis on colormaps
 
 # Structure
 
