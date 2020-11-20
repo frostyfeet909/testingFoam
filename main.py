@@ -1,7 +1,8 @@
 # Wrapper for all applications
 from os import chdir, mkdir
-from os.path import dirname, realpath, isdir
+from os.path import dirname, realpath, isdir, join
 from time import time
+from shutil import rmtree
 
 
 def main():
@@ -25,6 +26,10 @@ def main():
 
     if not isdir("resources"):
         mkdir("resources")
+
+    # If something was aborted last run
+    if isdir(join("resources", "tempCase")):
+        rmtree(join("resources", "tempCase"))
 
     while choice != "" and choice != "q" and choice != "exit" and choice != "stop":
         choice = raw_input(">> ")
@@ -67,6 +72,12 @@ def main():
             print("- You might need to give the bash scripts run permissions")
             print("- baseCase is an fully setup case ready to be run by foam extend for the algorithm your testing")
             print("- referenceCase is an computed case done using the reference algorithm")
+            print("1 - findGood")
+            print("2 - generateData")
+            print("3 - plotCases")
+            print("4 - plotColor")
+            print("5 - help")
+            print("\n")
 
         else:
             print("[!] Not a valid choice")

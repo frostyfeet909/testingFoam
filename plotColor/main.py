@@ -40,20 +40,19 @@ def main():
             print("X: %s %s %s" % (ranges[3], ranges[4], ranges[5]))
             print("\n")
 
-        print("Pick the corresponding number or attempt to make your own by entering 0: ")
+        print("Pick the corresponding number or don't to attempt to make your own: ")
         choice = raw_input(">> ")
         print("\n")
 
-    if choice == "0":
+    if choice == "":
+        print("New data may be created though nothing will be stored in dataRanges - safer to make data via "
+              "generateData first")
         print("Format: initial step_size final")  # Format is very specific
         print("Epsilon conditions: ")
         ep_l, ep_step, ep_h = raw_input(">> ").split(" ")
         print("X conditions: ")
         x_l, x_step, x_h = raw_input(">> ").split(" ")
     else:
-        if choice == "":
-            choice = 1
-
         ep_l, ep_step, ep_h, x_l, x_step, x_h = data_ranges[int(choice)-1]
 
     plotColor.main(ep_l, ep_step, ep_h, x_l, x_step, x_h)
