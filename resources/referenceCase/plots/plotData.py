@@ -1,4 +1,5 @@
 # Plot the content of a csv file
+# Code created by Federico Municchi
 import scipy
 import numpy as np
 import matplotlib.pyplot as plt

@@ -20,9 +20,9 @@ data.csv - Table of data from the last-time step of the simulations, last two co
 
 dataRanges.csv - Table of data showing previously run 'batches' of tests.
 
-baseCase - An fully setup case that has not yet been run.
+baseCase - An fully setup case that has not yet been run. Setup by Federico Municchi with C++ function to save the data at each time-step to a csv DataSummary.csv
 
-referenceCase - An fully setup case that has been run, in this case by interFoam to act as a reference.
+referenceCase - An fully setup case that has been run, in this case by interFoam to act as a reference. Setup by Federico Municchi with C++ function to save the data at each time-step to a csv DataSummary.csv
 
 other - Folder of other useful scripts.
 

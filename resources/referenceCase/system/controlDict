@@ -62,7 +62,7 @@ allowSystemOperations 1;
 }
 
 functions
-(
+(// Code created by Federico Municchi
     DataSummary
 	{
 		functionObjectLibs ("libutilityFunctionObjects.so");

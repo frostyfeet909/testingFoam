@@ -20,7 +20,7 @@ libs
     "liblduSolvers.so"
 )
 
-application     interPhaseFieldFoam;
+application     interPhaseFieldFoam; // An implementation of phase-field coded by Federico Municchi
 
 startFrom       startTime;
 
@@ -62,7 +62,7 @@ allowSystemOperations 1;
 }
 
 functions
-(
+(// Code created by Federico Municchi
     DataSummary
 	{
 		functionObjectLibs ("libutilityFunctionObjects.so");
