@@ -28,7 +28,7 @@ for i in $(
     (
       cd "../resources/tempCase" || exit
 
-      # Edit the case how I want
+      # Edit the desired transport properties
       sed -i "63 s/[0-9]*\.[0-9]*/${i}/g" constant/transportProperties
       sed -i "66 s/[0-9]*\.[0-9]*/${j}/g" constant/transportProperties
 

@@ -21,7 +21,7 @@ cp -r "$sim" "../resources/tempCase"
 (
   cd "../resources/tempCase" || exit
 
-  # Edit the case how I want
+  # Edit the desired transport properties
   sed -i "63 s/[0-9]*\.[0-9]*/${ep}/g" constant/transportProperties
   sed -i "66 s/[0-9]*\.[0-9]*/${x}/g" constant/transportProperties
 
