@@ -69,9 +69,6 @@ other - Folder of other useful scripts.
         resources/
             referenceCase/
               -1/
-              -constant/
-                -transportProperties
-                ...
               -DataSummary.csv
               ...
             baseCase/
