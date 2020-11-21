@@ -1,0 +1,3 @@
+#!/bin/bash
+# Shorthand for running paraview here
+paraview damBreak.foam
