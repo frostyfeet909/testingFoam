@@ -5,7 +5,6 @@ from dataInterface import get_data
 import subprocess
 from os.path import join
 from subprocess import call
-from matplotlib.ticker import FormatStrFormatter
 
 plt.rcParams.update({'font.size': 22})
 
@@ -185,9 +184,9 @@ def set_axis(ax, rounding=2, max_ticks=10, min_ticks=3):
 def plot_velocity_mean(color):
     # Finds the right data and adds info + saves the graph
     plt.colorbar(label='Difference in velocity magnitude [m/s]', spacing='proportional')
-    plt.xlabel('Epsilon - Interface Thickness')
-    plt.ylabel('X - Mobility Factor')
-    plt.title('Velocity at the last time step')
+    plt.xlabel('Epsilon')
+    plt.ylabel('X')
+    plt.title('Mean Velocity at the last time step')
 
     # Save in pdf format
     plt.savefig('Umean' + color + '.pdf')
@@ -196,9 +195,9 @@ def plot_velocity_mean(color):
 def plot_velocity_max(color):
     # Finds the right data and adds info + saves the graph
     plt.colorbar(label='Difference in velocity magnitude [m/s]', spacing='proportional')
-    plt.xlabel('Epsilon - Interface Thickness')
-    plt.ylabel('X - Mobility Factor')
-    plt.title('Velocity at the last time step')
+    plt.xlabel('Epsilon')
+    plt.ylabel('X')
+    plt.title('Maximum Velocity at the last time step')
 
     # Save in pdf format
     plt.savefig('Umax' + color + '.pdf')
@@ -207,8 +206,8 @@ def plot_velocity_max(color):
 def plot_mass(color):
     # Finds the right data and adds info + saves the graph
     plt.colorbar(label='Difference in Average volume fraction', spacing='proportional')
-    plt.xlabel('Epsilon - Interface Thickness')
-    plt.ylabel('X - Mobility Factor')
+    plt.xlabel('Epsilon')
+    plt.ylabel('X')
     plt.title('Mass at the last time step')
 
     # Save in pdf format
@@ -218,8 +217,8 @@ def plot_mass(color):
 def plot_pressure(color):
     # Finds the right data and adds info + saves the graph
     plt.colorbar(label='Difference in Maximum pressure difference [Pa]', spacing='proportional')
-    plt.xlabel('Epsilon - Interface Thickness')
-    plt.ylabel('X - Mobility Factor')
+    plt.xlabel('Epsilon')
+    plt.ylabel('X')
     plt.title('Pressure at the last time step')
 
     # Save in pdf format
