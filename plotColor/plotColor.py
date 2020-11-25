@@ -1,6 +1,6 @@
 # Main application, plots color maps of all the global variables
 import matplotlib.pyplot as plt
-from numpy import meshgrid, arange
+from numpy import meshgrid, linspace
 from dataInterface import get_data
 import subprocess
 from os.path import join
@@ -35,9 +35,9 @@ def catalogue_data(ep_l, ep_step, ep_h, x_l, x_step, x_h):
     # ep = [] x = [] Need to get the exact range used by bash - I've seen some floating point errors with numpy doing
     # it so this is a dirty workaround I'll make better later
     range_temp = subprocess.Popen(['seq', ep_l, ep_step, ep_h], stdout=subprocess.PIPE)  # Don't even ask
-    ep_range = range_temp.communicate()[0].split("\n")[:-1]
+    ep_range = format_number_list(range_temp.communicate()[0].split("\n")[:-1])
     range_temp = subprocess.Popen(['seq', x_l, x_step, x_h], stdout=subprocess.PIPE)  # Don't even ask
-    x_range = range_temp.communicate()[0].split("\n")[:-1]
+    x_range = format_number_list(range_temp.communicate()[0].split("\n")[:-1])
     points = []
 
     for ep in ep_range:
@@ -80,8 +80,8 @@ def add_data(data, points, ep_range, x_range, umean_data, umax_data, mass_data, 
              mass_ref, pressure_ref):
     # Adds data correctly to a dict for a colormap
     for sim in data:
-        ep = sim[8]
-        x = sim[9]
+        ep = format_number(sim[8])
+        x = format_number(sim[9])
 
         if [ep, x] in points:
             points.remove([ep, x])
@@ -97,25 +97,36 @@ def add_data(data, points, ep_range, x_range, umean_data, umax_data, mass_data, 
 def plot(colors, ep_l, ep_step, ep_h, x_l, x_step, x_h):
     # Plots the colormaps
     ep, x, umean_data, umax_data, mass_data, pressure_data = catalogue_data(ep_l, ep_step, ep_h, x_l, x_step, x_h)
+
+    ticks_x, tick_labels_x = set_axis(ep, rounding=3, max_ticks=6)
+    ticks_y, tick_labels_y = set_axis(x)
+
     x, y = meshgrid(format_number_list(ep), format_number_list(x))
-    print(mass_data)
 
     if len(x) > 1 and len(y) > 1:
         for color in colors:
             plt.figure(figsize=(250 / 25.4, 200 / 25.4))
+            plt.xticks(ticks_x, tick_labels_x)
+            plt.yticks(ticks_y, tick_labels_y)
             # Axis swap - through testing could see that this is required
             plt.pcolormesh(y, x, umean_data, cmap=plt.cm.get_cmap(color), shading='auto')
             plot_velocity_mean(color)
 
             plt.figure(figsize=(250 / 25.4, 200 / 25.4))
+            plt.xticks(ticks_x, tick_labels_x)
+            plt.yticks(ticks_y, tick_labels_y)
             plt.pcolormesh(y, x, umax_data, cmap=plt.cm.get_cmap(color), shading='auto')
             plot_velocity_max(color)
 
             plt.figure(figsize=(250 / 25.4, 200 / 25.4))
+            plt.xticks(ticks_x, tick_labels_x)
+            plt.yticks(ticks_y, tick_labels_y)
             plt.pcolormesh(y, x, mass_data, cmap=plt.cm.get_cmap(color), shading='auto')
             plot_mass(color)
 
             plt.figure(figsize=(250 / 25.4, 200 / 25.4))
+            plt.xticks(ticks_x, tick_labels_x)
+            plt.yticks(ticks_y, tick_labels_y)
             plt.pcolormesh(y, x, pressure_data, cmap=plt.cm.get_cmap(color), shading='auto')
             plot_pressure(color)
     else:
@@ -126,7 +137,15 @@ def format_number_list(num_list):
     new_num_list = []
 
     for num in num_list:
-        num = str(num)
+        new_num = format_number(num)
+        new_num_list.append(new_num)
+
+    return new_num_list
+
+
+def format_number(num):
+    num = str(num)
+    if "." in num:
         relevant = False
         new_num = ""
         for i in num[::-1]:
@@ -138,11 +157,29 @@ def format_number_list(num_list):
 
         new_num = new_num[::-1]
         if new_num[-1] == ".":
-            new_num += "0"
+            new_num = new_num[:-1]
+    else:
+        new_num = num
 
-        new_num_list.append(new_num)
+    return new_num
 
-    return new_num_list
+
+def set_axis(ax, rounding=2, max_ticks=10, min_ticks=3):
+    num_ticks = round(len(ax) / 3)
+    tick_labels = []
+
+    if num_ticks < min_ticks:
+        num_ticks = min_ticks
+    elif num_ticks > max_ticks:
+        num_ticks = max_ticks
+
+    ticks = list(linspace(0, len(ax)-1, num_ticks))
+
+    for i in range(0, len(ticks)):
+        ticks[i] = int(round(ticks[i]))
+        tick_labels.append(round(float(ax[ticks[i]]), rounding))
+
+    return ticks, tick_labels
 
 
 def plot_velocity_mean(color):
