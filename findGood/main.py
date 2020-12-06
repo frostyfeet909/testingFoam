@@ -19,7 +19,7 @@ def main():
         print("\n")
         return
 
-    print("Default 1% tol - enter if want: mass pressure Umean Umax")
+    print("Default 1% tol - enter if want:")
 
     # Setting error tolerance
     tol = raw_input(">> ")
