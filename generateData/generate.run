@@ -47,7 +47,7 @@ for i in $(
     )
 
     if [ "$keep" == "y" ]; then
-      mv -r "../resources/tempCase" "../resources/cases/ep${i}x${j}"
+      mv "../resources/tempCase" "../resources/cases/ep${i}x${j}"
     else
       rm -r "../resources/tempCase"
     fi
