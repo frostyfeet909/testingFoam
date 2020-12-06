@@ -6,6 +6,7 @@
 
 # Setting things
 application="interPhaseFieldFoam"
+end_time="1"
 # Location of the base case
 sim="../resources/baseCase"
 dataDump="../data.csv"
@@ -31,7 +32,7 @@ cp -r "$sim" "../resources/tempCase"
   $application
 
   # If sim worked then save the results, if not save 0's - awk adds ep,x onto the end
-  if [ -f "DataSummary.csv" ] && [ -d "1" ]; then
+  if [ -f "DataSummary.csv" ] && [ -d $end_time ]; then
     tail -n 1 "DataSummary.csv" | awk -F, -v a="$ep" -v b="$x", '{$(NF+1)=a FS b;}1' OFS=, >>"${dataDump}"
   else
     echo "0,0,0,0,0,0,0,0" | awk -F, -v a="$ep" -v b="$x", '{$(NF+1)=a FS b;}1' OFS=, >>"${dataDump}"
