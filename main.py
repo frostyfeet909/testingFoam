@@ -27,6 +27,9 @@ def main():
     if not isdir("resources"):
         mkdir("resources")
 
+    if not isdir(join("resources", "cases")):
+        mkdir(join("resources", "cases"))
+
     # If something was aborted last run
     if isdir(join("resources", "tempCase")):
         rmtree(join("resources", "tempCase"))
