@@ -22,10 +22,11 @@ def main():
     ep_l, ep_step, ep_h = raw_input(">> ").split(" ")
     print("X conditions: ")
     x_l, x_step, x_h = raw_input(">> ").split(" ")
+    keep = raw_input("Do you want to keep the sims [y/n]: ")
 
     write_data(ep_l, ep_step, ep_h, x_l, x_step, x_h)
 
-    call(["./generate.run", ep_l, ep_step, ep_h, x_l, x_step, x_h])
+    call(["./generate.run", ep_l, ep_step, ep_h, x_l, x_step, x_h, keep])
     remove_dupes()
     remove_dupes("dataRanges.csv")
 

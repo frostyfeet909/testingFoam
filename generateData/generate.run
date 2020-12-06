@@ -10,6 +10,7 @@ application="interPhaseFieldFoam"
 sim="../resources/baseCase"
 dataDump="../data.csv"
 
+keep="$7"
 # ep 0.00599987
 # x  0.0001
 
@@ -43,10 +44,13 @@ for i in $(
       else
         echo "0,0,0,0,0,0,0,0" | awk -F, -v a="$i" -v b="$j", '{$(NF+1)=a FS b;}1' OFS=, >>"${dataDump}"
       fi
-
     )
 
-    rm -r "../resources/tempCase"
+    if [ "$keep" == "y" ]; then
+      mv -r "../resources/tempCase" "../resources/cases/ep${i}x${j}"
+    else
+      rm -r "../resources/tempCase"
+    fi
 
   done
 done
