@@ -1,8 +1,9 @@
 # testingFoam - https://github.com/frostyfeet909/testingFoam
 Some programs I'm working on. If you want to run it just navigate to this folder and: 
 
-1. fe41
-2. python main.py
+1. Set the solver and the value of the last time step in generateData/generate.run
+2. fe41
+3. python main.py
 
 Requirements for each are in the respective readme and brief instruction on use (they're very out of date). Any folders/files listed in the structure needed for execution either come packaged with it or will be generated on first run.
 
@@ -23,6 +24,8 @@ dataRanges.csv - Table of data showing previously run 'batches' of tests.
 baseCase - An fully setup case that has not yet been run. Setup by Federico Municchi with C++ function to save the data at each time-step to a csv DataSummary.csv
 
 referenceCase - An fully setup case that has been run, in this case by interFoam to act as a reference. Setup by Federico Municchi with C++ function to save the data at each time-step to a csv DataSummary.csv
+
+cases - An folder containing previously run cases (V. big)
 
 other - Folder of other useful scripts.
 
@@ -77,6 +80,8 @@ other - Folder of other useful scripts.
               -plots/
                 -plotData.py
               ...
+            cases/
+              ...
               
             -data.csv
             -dataRanges.csv
@@ -87,5 +92,6 @@ other - Folder of other useful scripts.
   
         other/
             -makeGif.run
+            -paraCase.run
             
         -main.py
