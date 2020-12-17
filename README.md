@@ -1,9 +1,12 @@
 # testingFoam - https://github.com/frostyfeet909/testingFoam
-Some programs I'm working on. If you want to run it just navigate to this folder and: 
+Some programs I'm working on. If you want to run it just navigate to this folder and:
 
-1. Set the solver and the value of the last time step in generateData/generate.run
+1. Set the solver your testing and the value of the last time step in generateData/generate.run
+2. Generate the reference case and base case as outlined below
 2. fe41
 3. python main.py
+
+(defaults work for testing phaseFieldFoam against interFoam on the damBreak scenario)
 
 Requirements for each are in the respective readme and brief instruction on use (they're very out of date). Any folders/files listed in the structure needed for execution either come packaged with it or will be generated on first run.
 
