@@ -8,6 +8,8 @@ if [ "$name" == "" ]; then
   name="${PWD##*/}"
 fi
 
+# https://stackoverflow.com/questions/6230353/how-to-create-gif-animation-from-a-stack-of-jpgs
 convert -delay 20 -loop 0 *.jpg "${name}.gif"
+
 rm *.jpg
 echo "${name}.gif Created"
